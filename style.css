@@ -421,6 +421,13 @@ a:hover { color: var(--color-purple-75); }
     padding: var(--space-4);
     border-right: 1px solid var(--color-border);
     position: relative;
+    color: var(--color-white);
+    text-decoration: none;
+    transition: background var(--transition);
+}
+.feature-card:hover {
+    background: var(--color-bg-elevated);
+    color: var(--color-white);
 }
 .feature-row > .feature-card:last-child { border-right: 0; }
 .feature-card .icon-wrap {
@@ -648,6 +655,134 @@ a:hover { color: var(--color-purple-75); }
 .footer-bottom .legal { display: flex; gap: var(--space-4); }
 .social-links { display: flex; gap: var(--space-3); }
 .social-links a { color: var(--color-text-muted); }
+
+/* ==========================================================================
+   Hero — visual side
+   ========================================================================== */
+.hero-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    max-height: 560px;
+}
+.hero-image {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+.hero-image-placeholder { width: 100%; height: 100%; }
+.hero-image-placeholder svg { width: 100%; height: 100%; }
+.hero-badge {
+    position: absolute;
+    left: -32px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 100px;
+    animation: estatein-spin 14s linear infinite;
+}
+.hero-badge svg { width: 100%; height: 100%; }
+@keyframes estatein-spin {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to   { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* ==========================================================================
+   Generic section head (eyebrow + title + intro + side button)
+   ========================================================================== */
+.section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+    flex-wrap: wrap;
+}
+.section-head-text { max-width: 80ch; }
+.section-head-text h2 { margin-bottom: var(--space-2); }
+.section-head-text p { margin: 0; font-size: 0.9375rem; }
+.dots-deco {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: var(--space-2);
+}
+.dots-deco span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--color-purple-90);
+}
+.dots-deco span:nth-child(2) { background: var(--color-purple-75); }
+.dots-deco span:nth-child(3) { background: var(--color-grey-30); }
+
+/* ==========================================================================
+   Property card body / meta tweaks
+   ========================================================================== */
+.property-card .property-body { display: flex; flex-direction: column; gap: 4px; }
+.property-card .meta-row {
+    align-items: center;
+}
+.property-card .price { line-height: 1.2; }
+
+/* ==========================================================================
+   Carousel pager (visual only — purely decorative pagination indicator)
+   ========================================================================== */
+.carousel-pager {
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.page-indicator {
+    color: var(--color-white);
+    font-size: 0.9375rem;
+}
+.page-indicator .of {
+    color: var(--color-text-muted);
+}
+.pager-buttons { display: flex; gap: var(--space-2); }
+.pager-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    color: var(--color-white);
+    cursor: pointer;
+    display: grid; place-items: center;
+    transition: all var(--transition);
+}
+.pager-btn:hover {
+    background: var(--color-grey-15);
+    border-color: var(--color-border-strong);
+}
+
+/* ==========================================================================
+   CTA band tweaks
+   ========================================================================== */
+.cta-band h2 { margin-bottom: var(--space-2); font-size: clamp(1.5rem, 3vw, 2.25rem); }
+.cta-band p  { margin: 0; }
+
+/* ==========================================================================
+   Footer copyright separator
+   ========================================================================== */
+.footer-bottom .copyright a {
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    margin-left: var(--space-3);
+}
+.footer-bottom .copyright a:hover { color: var(--color-white); }
+.social-links a {
+    display: inline-grid;
+    place-items: center;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    transition: all var(--transition);
+}
+.social-links a:hover {
+    color: var(--color-white);
+    background: var(--color-bg-elevated);
+}
 
 /* ==========================================================================
    Responsive

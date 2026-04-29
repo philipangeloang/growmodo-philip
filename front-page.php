@@ -2,30 +2,26 @@
 /**
  * The front page template.
  *
- * Used when a static page is set as the homepage in Settings > Reading.
- * Sections below will be tuned to match the Figma design.
+ * Composes the homepage from modular section parts. Each part is
+ * self-contained and can be reused on other pages where it makes sense.
  *
- * @package CustomTheme
+ * @package Estatein
  */
 
 get_header();
 ?>
 
-<section class="hero section">
-    <div class="container">
-        <h1><?php bloginfo( 'name' ); ?></h1>
-        <p><?php bloginfo( 'description' ); ?></p>
-        <p>
-            <a class="btn" href="#">Get started</a>
-            <a class="btn btn-secondary" href="#">Learn more</a>
-        </p>
-    </div>
-</section>
+<?php get_template_part( 'template-parts/sections/hero' ); ?>
 
-<!--
-    TODO: convert remaining Figma sections (features / services / testimonials / CTA / etc.)
-    into modular template parts under /template-parts/sections/.
--->
+<?php get_template_part( 'template-parts/sections/features' ); ?>
+
+<?php get_template_part( 'template-parts/sections/featured-properties' ); ?>
+
+<?php get_template_part( 'template-parts/sections/testimonials' ); ?>
+
+<?php get_template_part( 'template-parts/sections/faqs' ); ?>
+
+<?php get_template_part( 'template-parts/sections/cta-band' ); ?>
 
 <?php
 get_footer();
