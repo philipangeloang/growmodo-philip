@@ -44,25 +44,47 @@
 
         <div class="hero-visual">
             <div class="hero-image">
-                <!-- Decorative gradient placeholder. Replace with hero image upload via WP customizer in a real build. -->
+                <!-- Decorative SVG hero visual — abstract glass buildings, replaceable via Customizer in a real build. -->
                 <div class="hero-image-placeholder" aria-hidden="true">
                     <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
                         <defs>
-                            <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#1A1A1A"/>
-                                <stop offset="50%" stop-color="#2D1B69"/>
-                                <stop offset="100%" stop-color="#703BF7"/>
+                            <linearGradient id="heroSky" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#0F0524"/>
+                                <stop offset="100%" stop-color="#2D1B69"/>
                             </linearGradient>
-                            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                            <linearGradient id="bldgA" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#4A6CFF" stop-opacity="0.95"/>
+                                <stop offset="100%" stop-color="#1B2D8A" stop-opacity="0.85"/>
+                            </linearGradient>
+                            <linearGradient id="bldgB" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#6B8AFF"/>
+                                <stop offset="100%" stop-color="#2A3FA0"/>
+                            </linearGradient>
+                            <linearGradient id="bldgC" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#8FA9FF"/>
+                                <stop offset="100%" stop-color="#3D52B0"/>
+                            </linearGradient>
+                            <pattern id="windows" width="12" height="20" patternUnits="userSpaceOnUse">
+                                <rect width="12" height="20" fill="rgba(0,0,0,0)"/>
+                                <rect x="2" y="2" width="8" height="14" fill="rgba(255,255,255,0.18)"/>
                             </pattern>
                         </defs>
-                        <rect width="400" height="500" fill="url(#heroGrad)"/>
-                        <rect width="400" height="500" fill="url(#grid)"/>
-                        <!-- Abstract building shapes -->
-                        <rect x="120" y="120" width="60" height="280" fill="rgba(255,255,255,0.08)" rx="2"/>
-                        <rect x="190" y="80" width="80" height="320" fill="rgba(255,255,255,0.12)" rx="2"/>
-                        <rect x="280" y="160" width="50" height="240" fill="rgba(255,255,255,0.06)" rx="2"/>
+                        <rect width="400" height="500" fill="url(#heroSky)"/>
+                        <!-- Tallest building -->
+                        <g>
+                            <polygon points="180,80 280,60 280,500 180,500" fill="url(#bldgA)"/>
+                            <polygon points="180,80 280,60 280,500 180,500" fill="url(#windows)" opacity="0.6"/>
+                        </g>
+                        <!-- Middle building -->
+                        <g>
+                            <polygon points="100,160 200,140 200,500 100,500" fill="url(#bldgB)"/>
+                            <polygon points="100,160 200,140 200,500 100,500" fill="url(#windows)" opacity="0.5"/>
+                        </g>
+                        <!-- Right building -->
+                        <g>
+                            <polygon points="270,140 370,120 370,500 270,500" fill="url(#bldgC)"/>
+                            <polygon points="270,140 370,120 370,500 270,500" fill="url(#windows)" opacity="0.45"/>
+                        </g>
                     </svg>
                 </div>
             </div>

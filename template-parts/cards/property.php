@@ -34,8 +34,8 @@ $price   = estatein_field( 'property_price', $post_id );
     <?php estatein_property_tags( $post_id ); ?>
 
     <div class="meta-row">
-        <div>
-            <span class="price-label"><?php esc_html_e( 'Price', 'estatein' ); ?></span><br>
+        <div class="price-block">
+            <span class="price-label"><?php esc_html_e( 'Price', 'estatein' ); ?></span>
             <span class="price"><?php echo esc_html( estatein_format_price( $price ) ); ?></span>
         </div>
         <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="btn">

@@ -351,7 +351,7 @@ a:hover { color: var(--color-purple-75); }
    Hero
    ========================================================================== */
 .hero {
-    padding-block: var(--space-7) var(--space-8);
+    padding-block: var(--space-6) var(--space-7);
     position: relative;
     overflow: hidden;
 }
@@ -361,6 +361,7 @@ a:hover { color: var(--color-purple-75); }
     gap: var(--space-6);
     align-items: center;
 }
+.hero-content { padding-block: var(--space-3); }
 .hero-title { margin-bottom: var(--space-3); }
 .hero-subtitle {
     max-width: 50ch;
@@ -493,14 +494,21 @@ a:hover { color: var(--color-purple-75); }
 }
 .property-card .meta-row {
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
+    gap: var(--space-3);
     margin-top: auto;
     padding-top: var(--space-3);
     border-top: 1px solid var(--color-border);
 }
+.property-card .price-block { display: flex; flex-direction: column; gap: 2px; }
 .property-card .price-label { font-size: 0.8125rem; color: var(--color-text-muted); }
-.property-card .price { font-size: 1.25rem; font-weight: 600; color: var(--color-white); }
+.property-card .price { font-size: 1.25rem; font-weight: 600; color: var(--color-white); line-height: 1.2; }
+.property-card .meta-row .btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    flex: none;
+}
 
 /* ==========================================================================
    Testimonials
@@ -661,30 +669,32 @@ a:hover { color: var(--color-purple-75); }
    ========================================================================== */
 .hero-visual {
     position: relative;
-    aspect-ratio: 4/5;
+    aspect-ratio: 1/1;
     max-height: 560px;
+    width: 100%;
 }
 .hero-image {
     width: 100%;
     height: 100%;
     border-radius: var(--radius-lg);
     overflow: hidden;
+    border: 1px solid var(--color-border);
 }
 .hero-image-placeholder { width: 100%; height: 100%; }
-.hero-image-placeholder svg { width: 100%; height: 100%; }
+.hero-image-placeholder svg { width: 100%; height: 100%; display: block; }
 .hero-badge {
     position: absolute;
-    left: -32px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100px;
-    height: 100px;
-    animation: estatein-spin 14s linear infinite;
+    left: -36px;
+    bottom: 32px;
+    width: 120px;
+    height: 120px;
+    animation: estatein-spin 16s linear infinite;
+    pointer-events: none;
 }
 .hero-badge svg { width: 100%; height: 100%; }
 @keyframes estatein-spin {
-    from { transform: translateY(-50%) rotate(0deg); }
-    to   { transform: translateY(-50%) rotate(360deg); }
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
 /* ==========================================================================
@@ -696,11 +706,17 @@ a:hover { color: var(--color-purple-75); }
     justify-content: space-between;
     gap: var(--space-4);
     margin-bottom: var(--space-5);
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
     flex-wrap: wrap;
 }
-.section-head-text { max-width: 80ch; }
+.section-head-text { max-width: 80ch; flex: 1 1 400px; }
 .section-head-text h2 { margin-bottom: var(--space-2); }
 .section-head-text p { margin: 0; font-size: 0.9375rem; }
+.section-head > .btn {
+    flex: none;
+    align-self: flex-end;
+}
 .dots-deco {
     display: inline-flex;
     gap: 4px;
@@ -733,13 +749,16 @@ a:hover { color: var(--color-purple-75); }
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--space-3);
 }
 .page-indicator {
     color: var(--color-white);
-    font-size: 0.9375rem;
+    font-size: 1rem;
+    font-weight: 500;
 }
 .page-indicator .of {
     color: var(--color-text-muted);
+    font-weight: 400;
 }
 .pager-buttons { display: flex; gap: var(--space-2); }
 .pager-btn {
@@ -751,11 +770,14 @@ a:hover { color: var(--color-purple-75); }
     cursor: pointer;
     display: grid; place-items: center;
     transition: all var(--transition);
+    flex: none;
 }
 .pager-btn:hover {
     background: var(--color-grey-15);
-    border-color: var(--color-border-strong);
+    border-color: var(--color-purple-75);
+    color: var(--color-purple-75);
 }
+.pager-btn svg { display: block; }
 
 /* ==========================================================================
    CTA band tweaks
@@ -796,6 +818,13 @@ a:hover { color: var(--color-purple-75); }
     .testimonials-grid,
     .faqs-grid { grid-template-columns: repeat(2, 1fr); }
     .footer-top { grid-template-columns: 1fr 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; margin-bottom: var(--space-3); }
+}
+
+@media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: var(--space-5); }
+    .hero-visual { aspect-ratio: 16/10; max-height: 420px; }
+    .hero-badge { width: 96px; height: 96px; left: -16px; bottom: 16px; }
 }
 
 @media (max-width: 768px) {
