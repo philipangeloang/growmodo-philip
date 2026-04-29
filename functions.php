@@ -137,4 +137,5 @@ require_once ESTATEIN_DIR . '/inc/icons.php';
 require_once ESTATEIN_DIR . '/inc/custom-post-types.php';
 require_once ESTATEIN_DIR . '/inc/acf-fields.php';
 require_once ESTATEIN_DIR . '/inc/property-helpers.php';
+require_once ESTATEIN_DIR . '/inc/cf7-settings.php';
 require_once ESTATEIN_DIR . '/inc/admin-notices.php';

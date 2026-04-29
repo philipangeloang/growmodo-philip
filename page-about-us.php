@@ -55,21 +55,46 @@ $team = array(
             </div>
         </div>
         <div class="journey-visual">
-            <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;border-radius:var(--radius-lg);">
+            <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;border-radius:var(--radius-lg);">
                 <defs>
                     <linearGradient id="jbg" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="#1A1A1A"/>
                         <stop offset="100%" stop-color="#262626"/>
                     </linearGradient>
+                    <linearGradient id="houseFront" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#FFFFFF"/>
+                        <stop offset="100%" stop-color="#D5C2FF"/>
+                    </linearGradient>
+                    <linearGradient id="houseSide" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#A883FF"/>
+                        <stop offset="100%" stop-color="#703BF7"/>
+                    </linearGradient>
+                    <pattern id="dotPat" width="14" height="14" patternUnits="userSpaceOnUse">
+                        <circle cx="7" cy="7" r="0.8" fill="rgba(255,255,255,0.06)"/>
+                    </pattern>
                 </defs>
-                <rect width="500" height="500" fill="url(#jbg)"/>
-                <!-- Hand+house abstract shape -->
-                <ellipse cx="250" cy="450" rx="180" ry="14" fill="#000" opacity="0.4"/>
-                <rect x="180" y="180" width="180" height="180" fill="#fff" opacity="0.95" rx="2"/>
-                <polygon points="180,180 270,100 360,180" fill="#fff" opacity="0.95"/>
-                <rect x="220" y="240" width="40" height="80" fill="#1A1A1A"/>
-                <rect x="280" y="220" width="60" height="40" fill="#1A1A1A" opacity="0.7"/>
-                <rect x="200" y="220" width="20" height="20" fill="#1A1A1A" opacity="0.7"/>
+                <rect width="500" height="400" fill="url(#jbg)"/>
+                <rect width="500" height="400" fill="url(#dotPat)"/>
+
+                <!-- Hand silhouette -->
+                <path d="M 60 380 Q 100 360 160 360 L 380 360 Q 420 360 440 380 L 440 400 L 60 400 Z" fill="#3A2470" opacity="0.5"/>
+
+                <!-- House -->
+                <g transform="translate(140, 100)">
+                    <!-- Roof -->
+                    <polygon points="0,80 110,0 220,80" fill="#FFFFFF"/>
+                    <!-- Front face -->
+                    <rect x="0" y="80" width="220" height="180" fill="url(#houseFront)"/>
+                    <!-- Side face -->
+                    <polygon points="220,80 260,60 260,240 220,260" fill="url(#houseSide)"/>
+                    <!-- Door -->
+                    <rect x="40" y="160" width="40" height="100" fill="#1A1A1A"/>
+                    <circle cx="72" cy="210" r="2" fill="#FFFFFF"/>
+                    <!-- Windows -->
+                    <rect x="120" y="130" width="50" height="50" fill="#1A1A1A" opacity="0.85"/>
+                    <line x1="145" y1="130" x2="145" y2="180" stroke="#FFFFFF" stroke-width="2" opacity="0.4"/>
+                    <line x1="120" y1="155" x2="170" y2="155" stroke="#FFFFFF" stroke-width="2" opacity="0.4"/>
+                </g>
             </svg>
         </div>
     </div>
@@ -149,13 +174,34 @@ $team = array(
             </div>
         </div>
         <div class="team-grid">
-            <?php foreach ( $team as $i => $m ) : ?>
+            <?php
+            $avatar_palettes = array(
+                array( '#3A2470', '#1A1A1A' ),
+                array( '#5B3FB0', '#262626' ),
+                array( '#4D3A8C', '#1F1F1F' ),
+                array( '#6B4FCF', '#2B2B2B' ),
+            );
+            foreach ( $team as $i => $m ) :
+                $palette = $avatar_palettes[ $i % count( $avatar_palettes ) ];
+                $initials = '';
+                foreach ( explode( ' ', $m['name'] ) as $word ) {
+                    $initials .= mb_substr( $word, 0, 1 );
+                }
+                $initials = strtoupper( mb_substr( $initials, 0, 2 ) );
+                ?>
                 <div class="team-card">
                     <div class="team-avatar">
-                        <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
-                            <rect width="200" height="240" fill="#262626"/>
-                            <circle cx="100" cy="90" r="36" fill="#3A2470"/>
-                            <ellipse cx="100" cy="200" rx="60" ry="50" fill="#3A2470"/>
+                        <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+                            <defs>
+                                <linearGradient id="ag<?php echo (int) $i; ?>" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="<?php echo esc_attr( $palette[0] ); ?>"/>
+                                    <stop offset="100%" stop-color="<?php echo esc_attr( $palette[1] ); ?>"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="200" height="240" fill="url(#ag<?php echo (int) $i; ?>)"/>
+                            <text x="100" y="135" text-anchor="middle" font-family="Urbanist, sans-serif" font-size="60" font-weight="700" fill="#FFFFFF" opacity="0.9">
+                                <?php echo esc_html( $initials ); ?>
+                            </text>
                         </svg>
                         <span class="team-twitter" aria-hidden="true">𝕏</span>
                     </div>

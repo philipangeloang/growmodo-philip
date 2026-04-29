@@ -73,8 +73,22 @@ while ( have_posts() ) :
                 </div>
 
                 <div class="gallery-main">
-                    <div class="gallery-main-img" style="<?php echo $images[0] ? 'background-image:url(' . esc_url( $images[0] ) . ');' : 'background:linear-gradient(135deg,#1A1A1A,#262626);'; ?>"></div>
-                    <div class="gallery-main-img" style="<?php echo $images[1] ? 'background-image:url(' . esc_url( $images[1] ) . ');' : 'background:linear-gradient(135deg,#262626,#333);'; ?>"></div>
+                    <div class="gallery-main-img" style="<?php echo ! empty( $images[0] ) ? 'background-image:url(' . esc_url( $images[0] ) . ');' : 'background:linear-gradient(135deg,#1A1A1A,#262626);'; ?>"></div>
+                    <div class="gallery-main-img" style="<?php
+                        if ( ! empty( $images[1] ) ) {
+                            echo 'background-image:url(' . esc_url( $images[1] ) . ');';
+                        } else {
+                            // Inner room placeholder (different feel from exterior).
+                            echo 'background:radial-gradient(circle at 30% 30%, #3A2470, #1A1A1A 70%);';
+                        }
+                    ?>">
+                        <?php if ( empty( $images[1] ) ) : ?>
+                            <div class="gallery-placeholder-content">
+                                <span aria-hidden="true">🏠</span>
+                                <span><?php esc_html_e( 'Interior view', 'estatein' ); ?></span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
 
                 <div class="carousel-pager gallery-pager" aria-hidden="true">
