@@ -1592,11 +1592,13 @@ a:hover { color: var(--color-purple-75); }
     .gallery-thumbs { grid-template-columns: repeat(3, 1fr); }
     .values-cards { grid-template-columns: 1fr; }
 
-    /* On phone-size, show ~85% of one card so users see there's more. */
+    /* On phone-size, show ~88% of one card so users see there's more. */
     .properties-grid > *,
     .testimonials-grid > *,
     .faqs-grid > * {
-        flex: 0 0 85%;
+        flex: 0 0 88%;
+        min-width: 88%;
+        max-width: 88%;
     }
 
     /* Carousel pager spacing on mobile */
@@ -1637,8 +1639,9 @@ a:hover { color: var(--color-purple-75); }
     .testimonials-grid > *,
     .faqs-grid > * {
         flex: 0 0 calc(50% - var(--space-3) / 2);
+        min-width: calc(50% - var(--space-3) / 2);
+        max-width: calc(50% - var(--space-3) / 2);
         scroll-snap-align: start;
-        min-width: 0; /* prevent flex children from overflowing */
     }
 
     .footer-top { grid-template-columns: 1fr 1fr 1fr; }

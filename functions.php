@@ -131,6 +131,23 @@ function estatein_excerpt_more( $more ) {
 add_filter( 'excerpt_more', 'estatein_excerpt_more' );
 
 /**
+ * When the property search bar submits, default behavior is to search
+ * across all post types. This filter keeps the post_type=property scope
+ * so the search returns only property posts.
+ *
+ * (No-op currently — WordPress already respects the hidden post_type
+ * input. Hook left here as a placeholder for richer search logic
+ * (location/price meta filters) in a future iteration.)
+ */
+function estatein_property_search_query( $query ) {
+    if ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) {
+        return;
+    }
+    // Currently a placeholder — see future iteration notes in README.
+}
+add_action( 'pre_get_posts', 'estatein_property_search_query' );
+
+/**
  * Modular includes.
  */
 require_once ESTATEIN_DIR . '/inc/icons.php';

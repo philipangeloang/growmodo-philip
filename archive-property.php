@@ -19,12 +19,13 @@ get_header();
     </div>
 </section>
 
-<?php /* Search bar (visual only) */ ?>
+<?php /* Search bar — submits to WP search, scoped to the property CPT */ ?>
 <section class="section property-search-section">
     <div class="container">
-        <form class="property-search" role="search" onsubmit="return false;">
+        <form class="property-search" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
             <label class="screen-reader-text" for="property-search-input"><?php esc_html_e( 'Search for a property', 'estatein' ); ?></label>
-            <input id="property-search-input" type="search" placeholder="<?php esc_attr_e( 'Search For A Property', 'estatein' ); ?>">
+            <input id="property-search-input" type="search" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php esc_attr_e( 'Search For A Property', 'estatein' ); ?>">
+            <input type="hidden" name="post_type" value="property">
             <button type="submit" class="btn">
                 <span aria-hidden="true">🔍</span>
                 <?php esc_html_e( 'Find Property', 'estatein' ); ?>
@@ -32,11 +33,11 @@ get_header();
         </form>
 
         <div class="property-filters">
-            <button class="filter-btn"><span aria-hidden="true">📍</span><?php esc_html_e( 'Location', 'estatein' ); ?> ▾</button>
-            <button class="filter-btn"><span aria-hidden="true">🏠</span><?php esc_html_e( 'Property Type', 'estatein' ); ?> ▾</button>
-            <button class="filter-btn"><span aria-hidden="true">💰</span><?php esc_html_e( 'Pricing Range', 'estatein' ); ?> ▾</button>
-            <button class="filter-btn"><span aria-hidden="true">📦</span><?php esc_html_e( 'Property Size', 'estatein' ); ?> ▾</button>
-            <button class="filter-btn"><span aria-hidden="true">📅</span><?php esc_html_e( 'Build Year', 'estatein' ); ?> ▾</button>
+            <button class="filter-btn" type="button"><span aria-hidden="true">📍</span><?php esc_html_e( 'Location', 'estatein' ); ?> ▾</button>
+            <button class="filter-btn" type="button"><span aria-hidden="true">🏠</span><?php esc_html_e( 'Property Type', 'estatein' ); ?> ▾</button>
+            <button class="filter-btn" type="button"><span aria-hidden="true">💰</span><?php esc_html_e( 'Pricing Range', 'estatein' ); ?> ▾</button>
+            <button class="filter-btn" type="button"><span aria-hidden="true">📦</span><?php esc_html_e( 'Property Size', 'estatein' ); ?> ▾</button>
+            <button class="filter-btn" type="button"><span aria-hidden="true">📅</span><?php esc_html_e( 'Build Year', 'estatein' ); ?> ▾</button>
         </div>
     </div>
 </section>
