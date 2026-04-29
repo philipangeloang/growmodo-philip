@@ -25,8 +25,8 @@ if ( ! $faqs_query->have_posts() ) {
                 <h2><?php esc_html_e( 'Frequently Asked Questions', 'estatein' ); ?></h2>
                 <p><?php esc_html_e( "Find answers to common questions about Estatein's services, property listings, and the real estate process. We're here to provide clarity and assist you every step of the way.", 'estatein' ); ?></p>
             </div>
-            <a href="#" class="btn btn-secondary">
-                <?php esc_html_e( 'View All FAQ\'s', 'estatein' ); ?>
+            <a href="#" class="btn btn-secondary view-all-link view-all-desktop">
+                <?php esc_html_e( "View All FAQ's", 'estatein' ); ?>
             </a>
         </div>
 
@@ -40,7 +40,10 @@ if ( ! $faqs_query->have_posts() ) {
             ?>
         </div>
 
-        <div class="carousel-pager" aria-hidden="true">
+        <div class="carousel-pager">
+            <a href="#" class="btn btn-secondary view-all-link view-all-mobile">
+                <?php esc_html_e( "View All FAQ's", 'estatein' ); ?>
+            </a>
             <span class="page-indicator">01 <span class="of">of</span> <?php echo esc_html( $faqs_query->found_posts ); ?></span>
             <div class="pager-buttons">
                 <button class="pager-btn" aria-label="<?php esc_attr_e( 'Previous', 'estatein' ); ?>">

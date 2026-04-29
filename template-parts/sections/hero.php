@@ -44,49 +44,13 @@
 
         <div class="hero-visual">
             <div class="hero-image">
-                <!-- Decorative SVG hero visual — abstract glass buildings, replaceable via Customizer in a real build. -->
-                <div class="hero-image-placeholder" aria-hidden="true">
-                    <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                        <defs>
-                            <linearGradient id="heroSky" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#0F0524"/>
-                                <stop offset="100%" stop-color="#2D1B69"/>
-                            </linearGradient>
-                            <linearGradient id="bldgA" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#4A6CFF" stop-opacity="0.95"/>
-                                <stop offset="100%" stop-color="#1B2D8A" stop-opacity="0.85"/>
-                            </linearGradient>
-                            <linearGradient id="bldgB" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#6B8AFF"/>
-                                <stop offset="100%" stop-color="#2A3FA0"/>
-                            </linearGradient>
-                            <linearGradient id="bldgC" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#8FA9FF"/>
-                                <stop offset="100%" stop-color="#3D52B0"/>
-                            </linearGradient>
-                            <pattern id="windows" width="12" height="20" patternUnits="userSpaceOnUse">
-                                <rect width="12" height="20" fill="rgba(0,0,0,0)"/>
-                                <rect x="2" y="2" width="8" height="14" fill="rgba(255,255,255,0.18)"/>
-                            </pattern>
-                        </defs>
-                        <rect width="400" height="500" fill="url(#heroSky)"/>
-                        <!-- Tallest building -->
-                        <g>
-                            <polygon points="180,80 280,60 280,500 180,500" fill="url(#bldgA)"/>
-                            <polygon points="180,80 280,60 280,500 180,500" fill="url(#windows)" opacity="0.6"/>
-                        </g>
-                        <!-- Middle building -->
-                        <g>
-                            <polygon points="100,160 200,140 200,500 100,500" fill="url(#bldgB)"/>
-                            <polygon points="100,160 200,140 200,500 100,500" fill="url(#windows)" opacity="0.5"/>
-                        </g>
-                        <!-- Right building -->
-                        <g>
-                            <polygon points="270,140 370,120 370,500 270,500" fill="url(#bldgC)"/>
-                            <polygon points="270,140 370,120 370,500 270,500" fill="url(#windows)" opacity="0.45"/>
-                        </g>
-                    </svg>
-                </div>
+                <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/hero.png' ); ?>"
+                     alt="<?php esc_attr_e( 'Modern blue glass skyscrapers', 'estatein' ); ?>"
+                     class="hero-image-photo"
+                     width="1200" height="1300"
+                     loading="eager"
+                     fetchpriority="high"
+                     decoding="async">
             </div>
             <div class="hero-badge" aria-hidden="true">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

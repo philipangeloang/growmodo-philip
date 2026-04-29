@@ -29,10 +29,11 @@
         <div class="site-branding">
             <a class="site-title" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
                 <span class="logo-mark" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 0C6.268 0 0 6.268 0 14c0 7.732 6.268 14 14 14V0Z" fill="#703BF7"/>
-                        <path d="M14 0c7.732 0 14 6.268 14 14h-7c0-3.866-3.134-7-7-7V0Z" fill="#A883FF"/>
-                    </svg>
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/logo.png' ); ?>"
+                         alt=""
+                         width="28" height="28"
+                         loading="eager"
+                         decoding="async">
                 </span>
                 <?php bloginfo( 'name' ); ?>
             </a>

@@ -45,7 +45,7 @@ if ( ! $featured_query->have_posts() ) {
                 <h2><?php esc_html_e( 'Featured Properties', 'estatein' ); ?></h2>
                 <p><?php esc_html_e( 'Explore our handpicked selection of featured properties. Each listing offers a glimpse into exceptional homes and investments available through Estatein. Click "View Details" for more information.', 'estatein' ); ?></p>
             </div>
-            <a href="<?php echo esc_url( home_url( '/properties/' ) ); ?>" class="btn btn-secondary">
+            <a href="<?php echo esc_url( home_url( '/properties/' ) ); ?>" class="btn btn-secondary view-all-link view-all-desktop">
                 <?php esc_html_e( 'View All Properties', 'estatein' ); ?>
             </a>
         </div>
@@ -60,7 +60,10 @@ if ( ! $featured_query->have_posts() ) {
             ?>
         </div>
 
-        <div class="carousel-pager" aria-hidden="true">
+        <div class="carousel-pager">
+            <a href="<?php echo esc_url( home_url( '/properties/' ) ); ?>" class="btn btn-secondary view-all-link view-all-mobile">
+                <?php esc_html_e( 'View All Properties', 'estatein' ); ?>
+            </a>
             <span class="page-indicator">01 <span class="of">of</span> <?php echo esc_html( $featured_query->found_posts ); ?></span>
             <div class="pager-buttons">
                 <button class="pager-btn" aria-label="<?php esc_attr_e( 'Previous', 'estatein' ); ?>">

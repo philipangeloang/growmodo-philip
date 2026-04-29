@@ -25,7 +25,7 @@ if ( ! $testimonials_query->have_posts() ) {
                 <h2><?php esc_html_e( 'What Our Clients Say', 'estatein' ); ?></h2>
                 <p><?php esc_html_e( 'Read the success stories and heartfelt testimonials from our valued clients. Discover why they chose Estatein for their real estate needs.', 'estatein' ); ?></p>
             </div>
-            <a href="#" class="btn btn-secondary">
+            <a href="#" class="btn btn-secondary view-all-link view-all-desktop">
                 <?php esc_html_e( 'View All Testimonials', 'estatein' ); ?>
             </a>
         </div>
@@ -40,7 +40,10 @@ if ( ! $testimonials_query->have_posts() ) {
             ?>
         </div>
 
-        <div class="carousel-pager" aria-hidden="true">
+        <div class="carousel-pager">
+            <a href="#" class="btn btn-secondary view-all-link view-all-mobile">
+                <?php esc_html_e( 'View All Testimonials', 'estatein' ); ?>
+            </a>
             <span class="page-indicator">01 <span class="of">of</span> <?php echo esc_html( $testimonials_query->found_posts ); ?></span>
             <div class="pager-buttons">
                 <button class="pager-btn" aria-label="<?php esc_attr_e( 'Previous', 'estatein' ); ?>">
