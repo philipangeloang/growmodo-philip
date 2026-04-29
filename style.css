@@ -581,11 +581,36 @@ a:hover { color: var(--color-purple-75); }
 /* ==========================================================================
    Big CTA section
    ========================================================================== */
+.cta-section {
+    position: relative;
+    overflow: hidden;                     /* clip decorations at section edges */
+    border-block: 1px solid var(--color-border); /* full-bleed top + bottom hairlines */
+    background: var(--color-bg);
+}
+.cta-deco {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 42%;
+    max-width: 640px;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.6;                         /* sit subtly behind the content */
+}
+.cta-deco--left {
+    left: 0;
+    background-image: url('assets/images/cta-pattern-left.png');
+    background-position: left bottom;
+}
+.cta-deco--right {
+    right: 0;
+    background-image: url('assets/images/cta-pattern-right.png');
+    background-position: right bottom;
+}
 .cta-band {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: var(--space-6);
-    background: linear-gradient(180deg, var(--color-bg-elevated), var(--color-bg));
+    position: relative;                   /* sit above the absolute decorations */
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -601,7 +626,6 @@ a:hover { color: var(--color-purple-75); }
     padding-block: var(--space-6) 0; /* removed bottom padding so the strip can hug the edge */
     background: var(--color-bg);
     border-top: 1px solid var(--color-border);
-    margin-top: var(--space-7);
 }
 .footer-bottom-wrap {
     background: var(--color-bg-elevated);
@@ -867,7 +891,15 @@ a:hover { color: var(--color-purple-75); }
     border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--color-border);
+    background: var(--color-bg);          /* match page bg so the photo's transparent edges blend seamlessly */
     aspect-ratio: 4/3;
+}
+.journey-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
 }
 
 /* ==========================================================================
@@ -877,7 +909,7 @@ a:hover { color: var(--color-purple-75); }
     display: grid;
     grid-template-columns: 1fr 1.6fr;
     gap: var(--space-6);
-    align-items: start;
+    align-items: center;             /* vertically center the intro copy with the card grid */
 }
 .values-intro h2 { margin-bottom: var(--space-3); }
 .values-cards {
@@ -889,11 +921,17 @@ a:hover { color: var(--color-purple-75); }
     padding: var(--space-3);
     background: var(--color-bg-elevated);
 }
+/* Icon + title sit on one row; description spans below them. */
 .value-card {
     padding: var(--space-3);
     background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: var(--space-3);
+    row-gap: var(--space-2);
+    align-items: center;
 }
 .value-card .icon-wrap {
     width: 40px; height: 40px;
@@ -901,10 +939,9 @@ a:hover { color: var(--color-purple-75); }
     border-radius: 50%;
     display: grid; place-items: center;
     color: var(--color-purple-75);
-    margin-bottom: var(--space-2);
 }
-.value-card h3 { font-size: 1rem; margin-bottom: 4px; }
-.value-card p { font-size: 0.875rem; margin: 0; }
+.value-card h3 { font-size: 1rem; margin: 0; }
+.value-card p  { font-size: 0.875rem; margin: 0; grid-column: 1 / -1; }
 
 /* ==========================================================================
    ABOUT — Achievements / Steps / Team
@@ -1082,7 +1119,6 @@ a:hover { color: var(--color-purple-75); }
     border-radius: var(--radius);
     padding: 6px;
     gap: var(--space-2);
-    margin-bottom: var(--space-3);
 }
 .property-search input[type="search"] {
     flex: 1;
@@ -1093,24 +1129,49 @@ a:hover { color: var(--color-purple-75); }
     outline: none;
 }
 .property-filters {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);   /* equal-width filters across the row, like Figma */
     gap: var(--space-2);
-    flex-wrap: wrap;
+    margin-top: var(--space-3);
 }
-.filter-btn {
+/* The filter is now a label-wrap around a real <select> element so it
+   submits as a normal form param. The wrapper provides the box styling;
+   the select inside is transparent and stretches to fill. */
+.filter-wrap {
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     color: var(--color-text);
-    padding: 10px 16px;
-    cursor: pointer;
-    display: inline-flex;
+    padding: 12px 14px;
+    display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-size: 0.875rem;
+    cursor: pointer;
     transition: all var(--transition);
+    position: relative;
 }
-.filter-btn:hover { border-color: var(--color-purple-75); }
+.filter-wrap:hover,
+.filter-wrap:focus-within { border-color: var(--color-purple-75); }
+.filter-wrap > svg:first-child { color: var(--color-purple-75); flex: 0 0 auto; }
+.filter-wrap > svg:last-child  { color: var(--color-text-muted); flex: 0 0 auto; }
+.filter-wrap select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: var(--color-text);
+    font: inherit;
+    flex: 1;
+    min-width: 0;                            /* allow shrinkage to prevent overflow */
+    cursor: pointer;
+    outline: none;
+}
+.filter-wrap select option {
+    background: var(--color-bg-elevated);    /* dropdown options use theme bg (not OS-default white) */
+    color: var(--color-text);
+}
 
 /* ==========================================================================
    PROPERTY DETAILS
@@ -1323,12 +1384,12 @@ a:hover { color: var(--color-purple-75); }
    FORMS (shared estate-form styles)
    ========================================================================== */
 .form-card {
-    background: var(--color-bg-elevated);
+    background: var(--color-bg);            /* match page; let the border define the rectangle (per Figma) */
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
-    padding: var(--space-4);
+    padding: var(--space-3);                /* tightened from space-4 so the button sits closer to the right edge */
 }
-.form-card-large { padding: var(--space-5); }
+.form-card-large { padding: var(--space-4); }
 .estate-form { display: flex; flex-direction: column; gap: var(--space-3); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
 .form-row.form-row-3 { grid-template-columns: repeat(3, 1fr); }
@@ -1342,7 +1403,7 @@ a:hover { color: var(--color-purple-75); }
 .form-field textarea,
 .form-field select {
     padding: 12px 14px;
-    background: var(--color-bg);
+    background: var(--color-bg-elevated);   /* lift inputs above the card so they stand out as grey cards */
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     color: var(--color-text);
@@ -1359,19 +1420,67 @@ a:hover { color: var(--color-purple-75); }
 }
 .form-footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
     gap: var(--space-3);
+    flex-wrap: wrap;
+    width: 100%;
 }
+.form-footer .btn { margin-left: auto; }    /* button hugs the right edge of the form-footer (which is at the form's content right edge — aligned with textarea/inputs above) */
 .check-row {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     color: var(--color-text-muted);
     font-size: 0.875rem;
+    min-width: 0;                           /* allow text to wrap if it must */
 }
-.check-row a { color: var(--color-text-muted); }
+.check-row .check-text { line-height: 1.5; }
+.check-row a {
+    color: var(--color-text-muted);
+    text-decoration: underline;             /* enforce link underline (some resets strip it) */
+}
+
+/* Custom checkbox: replace the default white browser box with a theme-styled
+   square that fills purple with a checkmark when checked. */
+.check-row input[type="checkbox"],
+.wpcf7 form .wpcf7-acceptance input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    flex: 0 0 auto;
+    position: relative;
+    margin: 0;
+    transition: all var(--transition);
+}
+.check-row input[type="checkbox"]:hover,
+.wpcf7 form .wpcf7-acceptance input[type="checkbox"]:hover {
+    border-color: var(--color-purple-75);
+}
+.check-row input[type="checkbox"]:checked,
+.wpcf7 form .wpcf7-acceptance input[type="checkbox"]:checked {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+.check-row input[type="checkbox"]:checked::after,
+.wpcf7 form .wpcf7-acceptance input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 12.75 6 6 9-13.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 70%;
+}
+.check-row input[type="checkbox"]:focus-visible,
+.wpcf7 form .wpcf7-acceptance input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
 
 /* ==========================================================================
    CF7 forms — match estate-form style, handle CF7's auto-p wrapping
@@ -1387,13 +1496,34 @@ a:hover { color: var(--color-purple-75); }
     gap: var(--space-3);
 }
 
-/* Single-column rows (textarea, acceptance, submit) span full width */
+/* Textarea + response output span full width */
 .wpcf7 form > p:has(textarea),
-.wpcf7 form > p:has(.wpcf7-acceptance),
-.wpcf7 form > p:has(.wpcf7-submit),
-.wpcf7 form > .wpcf7-response-output,
-.wpcf7 form > p:last-of-type {
+.wpcf7 form > .wpcf7-response-output {
     grid-column: 1 / -1;
+}
+
+/* Acceptance and submit share one row: acceptance left (all-but-last col),
+   submit right (last col). Works for 2-col or 3-col grids since we use
+   negative line numbers. */
+.wpcf7 form > p:has(.wpcf7-acceptance) {
+    grid-column: 1 / -2;
+    display: flex;
+    align-items: center;
+}
+.wpcf7 form > p:has(.wpcf7-submit) {
+    grid-column: -2 / -1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* CF7 inserts a <span class="wpcf7-spinner"> after the submit button.
+   Its plugin CSS gives it 24px width + 48px margins = 72px of layout
+   space that pushes the submit button away from the right edge.
+   Take it out of layout (visible only during async submission, which
+   InstaWP can't complete anyway since SMTP isn't configured). */
+.wpcf7 form .wpcf7-spinner {
+    display: none !important;
 }
 
 /* When form has a class indicating 3-column layout (Contact form) */
@@ -1412,6 +1542,17 @@ a:hover { color: var(--color-purple-75); }
     width: 100%;
 }
 
+/* Acceptance checkbox label is the exception: input + text on ONE row,
+   not stacked. Override the flex-column from above. */
+.wpcf7 form .wpcf7-acceptance label {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-muted);
+    font-weight: normal;
+    width: auto;
+}
+
 /* Inputs */
 .wpcf7 form input[type="text"],
 .wpcf7 form input[type="email"],
@@ -1421,7 +1562,7 @@ a:hover { color: var(--color-purple-75); }
 .wpcf7 form textarea,
 .wpcf7 form select {
     padding: 12px 14px;
-    background: var(--color-bg);
+    background: var(--color-bg-elevated);   /* match the static-form input style: lighter than the form card */
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     color: var(--color-text);
@@ -1447,40 +1588,23 @@ a:hover { color: var(--color-purple-75); }
     border-color: var(--color-primary);
 }
 
-/* Acceptance checkbox */
-.wpcf7 form > p:has(.wpcf7-acceptance) {
-    grid-column: 1 / -1;
-}
+/* Acceptance checkbox content (inside the row defined above) */
 .wpcf7 form .wpcf7-acceptance {
-    display: block;
     color: var(--color-text-muted);
     font-size: 0.875rem;
 }
 .wpcf7 form .wpcf7-acceptance .wpcf7-list-item {
     margin: 0;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 .wpcf7 form .wpcf7-acceptance .wpcf7-list-item-label {
     color: var(--color-text-muted);
-}
-.wpcf7 form .wpcf7-acceptance input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--color-primary);
-    margin: 0;
-    flex: none;
-    cursor: pointer;
+    line-height: 1.5;
 }
 
-/* Submit button */
-.wpcf7 form > p:has(.wpcf7-submit) {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: var(--space-3);
-}
+/* Submit button styling (the row positioning is handled above) */
 .wpcf7 form .wpcf7-submit {
     padding: 0.875rem 1.5rem !important;
     background: var(--color-primary) !important;
@@ -1674,6 +1798,7 @@ a:hover { color: var(--color-purple-75); }
     .clients-grid { grid-template-columns: 1fr; }
     .gallery-thumbs { grid-template-columns: repeat(4, 1fr); }
     .form-row.form-row-3 { grid-template-columns: 1fr 1fr; }
+    .property-filters { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -1688,6 +1813,7 @@ a:hover { color: var(--color-purple-75); }
     .gallery-main { grid-template-columns: 1fr; }
     .gallery-thumbs { grid-template-columns: repeat(3, 1fr); }
     .values-cards { grid-template-columns: 1fr; }
+    .property-filters { grid-template-columns: repeat(2, 1fr); }
 
     /* Carousel pager spacing on mobile */
     .carousel-pager {
@@ -1791,29 +1917,8 @@ a:hover { color: var(--color-purple-75); }
         grid-column: 1 / -1;
     }
 
-    /* Values cards: icon + title in a horizontal row, description below */
-    .value-card {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto auto;
-        column-gap: var(--space-3);
-        align-items: center;
-    }
-    .value-card .icon-wrap {
-        margin-bottom: 0;
-        grid-row: 1;
-        grid-column: 1;
-    }
-    .value-card h3 {
-        margin: 0;
-        grid-row: 1;
-        grid-column: 2;
-    }
-    .value-card p {
-        grid-row: 2;
-        grid-column: 1 / -1;
-        margin-top: var(--space-2);
-    }
+    /* Values cards already use icon+title horizontal layout in the base
+       rule, so no override needed here. */
 
     .feature-row { grid-template-columns: 1fr; }
     .feature-row > .feature-card { border-right: 0; border-bottom: 1px solid var(--color-border); }
@@ -1855,7 +1960,39 @@ a:hover { color: var(--color-purple-75); }
         gap: var(--space-2);
     }
 
-    .cta-band { flex-direction: column; align-items: flex-start; padding: var(--space-4); }
+    /* CTA: stack content vertically, button stretches edge-to-edge,
+       and patterns reposition diagonally (top-left + bottom-right)
+       to match the Figma mobile layout. */
+    .cta-band {
+        flex-direction: column;
+        align-items: stretch;            /* let the button fill the row */
+        text-align: left;
+        gap: var(--space-5);
+    }
+    .cta-band .cta-action { width: 100%; }
+    .cta-band .cta-action .btn {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    /* Move left-side cubes to TOP-LEFT corner (flip vertically so the
+       dense cluster anchors to the top edge instead of the bottom). */
+    .cta-deco--left {
+        top: 0;
+        bottom: auto;
+        height: 45%;
+        width: 60%;
+        transform: scaleY(-1);
+        background-position: left bottom;  /* reads as "top" after the flip */
+    }
+    /* Right-side cubes stay anchored bottom-right, just smaller. */
+    .cta-deco--right {
+        top: auto;
+        bottom: 0;
+        height: 45%;
+        width: 60%;
+    }
+    .cta-deco { opacity: 0.45; }
 
     .footer-top { grid-template-columns: 1fr 1fr; gap: var(--space-4); }
     .footer-brand { grid-column: 1 / -1; }

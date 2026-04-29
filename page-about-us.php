@@ -55,47 +55,11 @@ $team = array(
             </div>
         </div>
         <div class="journey-visual">
-            <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block;border-radius:var(--radius-lg);">
-                <defs>
-                    <linearGradient id="jbg" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1A1A1A"/>
-                        <stop offset="100%" stop-color="#262626"/>
-                    </linearGradient>
-                    <linearGradient id="houseFront" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#FFFFFF"/>
-                        <stop offset="100%" stop-color="#D5C2FF"/>
-                    </linearGradient>
-                    <linearGradient id="houseSide" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#A883FF"/>
-                        <stop offset="100%" stop-color="#703BF7"/>
-                    </linearGradient>
-                    <pattern id="dotPat" width="14" height="14" patternUnits="userSpaceOnUse">
-                        <circle cx="7" cy="7" r="0.8" fill="rgba(255,255,255,0.06)"/>
-                    </pattern>
-                </defs>
-                <rect width="500" height="400" fill="url(#jbg)"/>
-                <rect width="500" height="400" fill="url(#dotPat)"/>
-
-                <!-- Hand silhouette -->
-                <path d="M 60 380 Q 100 360 160 360 L 380 360 Q 420 360 440 380 L 440 400 L 60 400 Z" fill="#3A2470" opacity="0.5"/>
-
-                <!-- House -->
-                <g transform="translate(140, 100)">
-                    <!-- Roof -->
-                    <polygon points="0,80 110,0 220,80" fill="#FFFFFF"/>
-                    <!-- Front face -->
-                    <rect x="0" y="80" width="220" height="180" fill="url(#houseFront)"/>
-                    <!-- Side face -->
-                    <polygon points="220,80 260,60 260,240 220,260" fill="url(#houseSide)"/>
-                    <!-- Door -->
-                    <rect x="40" y="160" width="40" height="100" fill="#1A1A1A"/>
-                    <circle cx="72" cy="210" r="2" fill="#FFFFFF"/>
-                    <!-- Windows -->
-                    <rect x="120" y="130" width="50" height="50" fill="#1A1A1A" opacity="0.85"/>
-                    <line x1="145" y1="130" x2="145" y2="180" stroke="#FFFFFF" stroke-width="2" opacity="0.4"/>
-                    <line x1="120" y1="155" x2="170" y2="155" stroke="#FFFFFF" stroke-width="2" opacity="0.4"/>
-                </g>
-            </svg>
+            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/about-hero.png' ); ?>"
+                 alt="<?php esc_attr_e( 'A hand holding a model house', 'estatein' ); ?>"
+                 width="755" height="546"
+                 loading="lazy"
+                 decoding="async">
         </div>
     </div>
 </section>

@@ -49,14 +49,14 @@ Single `style.css` using CSS custom properties for the design system. CSS scroll
 
 All six pages from the Figma template are implemented:
 
-| Page | Template | Notes |
-|---|---|---|
-| Home | `front-page.php` | Hero + 4-feature row + Featured Properties carousel + Testimonials + FAQs + CTA |
-| About Us | `page-about-us.php` | Our Journey + Values + Achievements + 6-step process + Team + Our Valued Clients |
-| Properties (archive) | `archive-property.php` | Page hero + working search + filter UI + property grid + inquiry form |
-| Property Details | `single-property.php` | Gallery + description + features + CF7 inquiry form + comprehensive pricing + FAQs |
-| Services | `page-services.php` | Hero + feature shortcuts + 3 service groups (Selling / Management / Investment) |
-| Contact | `page-contact.php` | Hero + 4 contact methods + CF7 form + 2 office cards with tab UI |
+| Page                 | Template               | Notes                                                                              |
+| -------------------- | ---------------------- | ---------------------------------------------------------------------------------- |
+| Home                 | `front-page.php`       | Hero + 4-feature row + Featured Properties carousel + Testimonials + FAQs + CTA    |
+| About Us             | `page-about-us.php`    | Our Journey + Values + Achievements + 6-step process + Team + Our Valued Clients   |
+| Properties (archive) | `archive-property.php` | Page hero + working search + filter UI + property grid + inquiry form              |
+| Property Details     | `single-property.php`  | Gallery + description + features + CF7 inquiry form + comprehensive pricing + FAQs |
+| Services             | `page-services.php`    | Hero + feature shortcuts + 3 service groups (Selling / Management / Investment)    |
+| Contact              | `page-contact.php`     | Hero + 4 contact methods + CF7 form + 2 office cards with tab UI                   |
 
 Plus: search results page (`search.php`), 404, generic page fallback, and single post fallback.
 
@@ -65,6 +65,7 @@ Plus: search results page (`search.php`), 404, generic page fallback, and single
 ## What's done
 
 ### Theme architecture
+
 - Custom theme bootstrap, properly enqueued assets, head cleanup, translation-ready (`__()` text domain throughout)
 - Sticky header with dismissible announcement bar (sessionStorage-persisted)
 - Pill-style primary nav, header CTA, mobile hamburger menu
@@ -72,12 +73,22 @@ Plus: search results page (`search.php`), 404, generic page fallback, and single
 - Custom 404, generic page, and single post fallbacks
 
 ### Data model
+
 - **Custom Post Types**: Property, Testimonial, FAQ, Client
 - **Custom Taxonomies**: Property Type, Property Location
 - **ACF field groups registered in PHP** (`acf_add_local_field_group()`), so the schema lives in version control instead of the database
 - Helper layer (`inc/property-helpers.php`) wraps `get_field()` so the theme degrades gracefully if ACF isn't installed
 
+### Property archive filtering (working, not just visual)
+
+- Real `<select>`-driven filter form on `archive-property.php` — Location, Property Type, Pricing Range, Property Size, Build Year
+- `inc/property-filters.php` hooks `pre_get_posts` and applies `tax_query` (location, type) and `meta_query` (price/size/year ranges) from URL params
+- Location and Property Type populate dynamically from taxonomy terms; price/size/year use predefined buckets defined in one place (`estatein_property_filter_ranges()`) so the form UI and the filter logic share a single source of truth
+- Native form submission via `onchange` — instant filtering with no JS framework, browser back/forward and bookmarking work correctly
+- Filter values persist in the URL (`?loc=&ptype=&price=&size=&year=&s=`) so users can share filtered results
+
 ### Frontend
+
 - Mobile-first responsive layouts at 1024 / 900 / 768 / 480 breakpoints
 - CSS scroll-snap carousels for Featured Properties, Testimonials, FAQs (one card per viewport on mobile, peek of next, swipeable)
 - Carousel pager buttons wired to `scrollBy()` with rAF-throttled "01 of N" indicator updates
@@ -85,18 +96,20 @@ Plus: search results page (`search.php`), 404, generic page fallback, and single
 - Native `loading="lazy"` images (WordPress 5.5+ default, respected by `the_post_thumbnail()`)
 
 ### Forms
+
 - Contact Form 7 integrated with custom theme styling (handles CF7's auto-`<p>` wrapping cleanly)
 - Theme-level admin page (Settings → Estatein) for pasting CF7 form IDs without editing code
 - Static fallback forms render if CF7 isn't installed — the theme is functional standalone
 - Inquiry form auto-prefills the property name on Property Details
 
 ### SEO & performance
+
 - Yoast SEO active (sitemap, OG tags, structured data, per-page meta)
 - Lighthouse on Desktop:
   - **Performance: 98**
   - **Accessibility: 88**
   - **Best Practices: 96**
-  - SEO: 50 *(InstaWP "discourage search engines" toggle — see notes below)*
+  - SEO: 50 _(InstaWP "discourage search engines" toggle — see notes below)_
 
 ---
 
@@ -107,30 +120,40 @@ customtheme/
 ├── style.css                 — single stylesheet with design tokens (CSS custom properties)
 ├── functions.php             — theme setup, asset enqueues, menu registration, search hooks
 ├── header.php                — site header + announcement bar
-├── footer.php                — 5-column footer + newsletter + social
+├── footer.php                — 5-column footer with fallback links + newsletter + social
 ├── front-page.php            — homepage composition
 ├── page-about-us.php         — About Us template (slug-matched)
 ├── page-services.php         — Services template
 ├── page-contact.php          — Contact template
 ├── page-properties-page.php  — placeholder page that delegates to archive-property.php
-├── archive-property.php      — Property CPT archive
+├── archive-property.php      — Property CPT archive (search + filter form + grid + inquiry)
 ├── single-property.php       — Property Details
 ├── search.php                — Property-aware search results
 ├── single.php / page.php / index.php / 404.php — fallbacks
+├── screenshot.png            — theme thumbnail shown in WP admin (Appearance → Themes)
+├── README.md                 — this file
 ├── inc/
 │   ├── icons.php             — inline SVG icon helper (Heroicons)
-│   ├── custom-post-types.php — register Property, Testimonial, FAQ, Client CPTs
+│   ├── custom-post-types.php — register Property, Testimonial, FAQ, Client CPTs + taxonomies
 │   ├── acf-fields.php        — ACF field groups registered in PHP
 │   ├── property-helpers.php  — get_field wrappers, formatting, tag rendering
+│   ├── property-filters.php  — pre_get_posts hook applying URL filters to the property archive
 │   ├── cf7-settings.php      — admin settings page for CF7 form IDs
 │   └── admin-notices.php     — ACF dependency warning
 ├── template-parts/
 │   ├── sections/             — homepage sections (hero, features, featured-properties, testimonials, faqs, cta-band, page-hero)
 │   ├── cards/                — reusable cards (property, testimonial, faq)
 │   └── forms/                — static fallback forms (inquiry, contact)
+├── languages/
+│   └── estatein.pot          — translation template (regenerate via `wp i18n make-pot`)
 └── assets/
-    ├── js/main.js            — mobile nav toggle, announce bar, carousel pager
+    ├── js/main.js            — mobile nav toggle, announce bar, carousel pager (~60 lines)
     └── images/
+        ├── logo.png              — purple Estatein mark, transparent bg
+        ├── hero.png              — homepage hero photo
+        ├── about-hero.png        — About page hero photo (transparent bg)
+        ├── cta-pattern-left.png  — CTA section decorative pattern (transparent bg)
+        └── cta-pattern-right.png — CTA section decorative pattern (transparent bg)
 ```
 
 ---
@@ -138,27 +161,35 @@ customtheme/
 ## Engineering decisions worth calling out
 
 ### Registering ACF fields in PHP, not via the admin UI
+
 The first instinct is to set up fields by clicking through ACF admin screens. That ships data definitions into the database, where they're invisible to git. Registering field groups via `acf_add_local_field_group()` keeps the schema in `inc/acf-fields.php`, so the data model travels with the codebase, deploys cleanly to other servers, and a senior reviewer can read the field structure without logging in.
 
 ### No SCSS, no build tool
+
 For a 4-hour build, every minute saved on tooling is a minute spent on the actual product. CSS custom properties handle the design tokens cleanly, modern CSS handles everything else. Webpack/Vite/Sass setup would have taken 20 minutes that wouldn't have improved the output.
 
 ### Heroicons inline as SVG, not an icon font
+
 No external HTTP request, perfect scaling, recolorable via `currentColor`, no FOUT, accessible by default. Slightly larger HTML payload, but bandwidth cost is negligible compared to the latency of a font request.
 
 ### Static fallback forms for Contact Form 7
+
 The theme is functional even if CF7 isn't installed. Reviewers can clone the repo, activate the theme, and get a coherent site without first installing plugins. CF7 swaps in transparently once configured via Settings → Estatein.
 
 ### Five separate footer menu locations
+
 Each footer column is independently editable in the admin. Lower-skill site owners can change "Our Story" → "Company Story" without code changes. Mirrors the Figma's information architecture exactly.
 
 ### A "Properties Page" that delegates to the archive
+
 WordPress page-vs-archive routing is genuinely a small mess. The "Properties" item in the nav links to `/properties-page/` (a real WP Page) which loads `page-properties-page.php`. That file overrides `$wp_query` with a property listing query, then renders `archive-property.php`. Both `/properties/` and `/properties-page/` show the same listing, so the menu link works whichever URL editors expect.
 
 ### CSS scroll-snap for mobile carousel, not a JS slider library
+
 Slick, Swiper, and friends are 30-100 KB of JS for behavior the browser already does natively. Below 1024px the property/testimonial/FAQ grids become flex containers with `scroll-snap-type: x mandatory`. Hardware-accelerated touch scrolling is free, and ~30 lines of vanilla JS hook the prev/next buttons up to `scrollBy()`. The "01 of N" indicator updates from scroll position via `requestAnimationFrame`.
 
 ### Theme-level admin page (Settings → Estatein) for CF7 form IDs
+
 CF7 forms have IDs that change between environments. Hardcoding the IDs in `single-property.php` would force a code change for every new deploy. A small admin settings page lets the site owner paste in the form ID once after creating their CF7 forms — same pattern as production WordPress themes that integrate with third-party plugins.
 
 ---
@@ -169,34 +200,34 @@ WordPress is a CMS. A custom theme should expose as much of the site to the admi
 
 ### Editable today (admin / no code change)
 
-| Content | How it's edited |
-|---|---|
-| Properties (cards, details, gallery, pricing, features) | Property CPT + ACF |
-| Testimonials | Testimonial CPT + ACF |
-| FAQs | FAQ CPT |
-| Clients ("Our Valued Clients" on About) | Client CPT + ACF |
-| Property categories | Property Type taxonomy |
-| Property locations | Property Location taxonomy |
-| Header navigation | Appearance → Menus → Primary |
-| Footer columns × 5 | Appearance → Menus (5 separate locations) |
-| Inquiry / Contact form fields and copy | Contact Form 7 |
-| CF7 form-to-template mapping | Settings → Estatein |
-| Site title, tagline | Settings → General |
-| SEO metadata per page | Yoast SEO |
+| Content                                                 | How it's edited                           |
+| ------------------------------------------------------- | ----------------------------------------- |
+| Properties (cards, details, gallery, pricing, features) | Property CPT + ACF                        |
+| Testimonials                                            | Testimonial CPT + ACF                     |
+| FAQs                                                    | FAQ CPT                                   |
+| Clients ("Our Valued Clients" on About)                 | Client CPT + ACF                          |
+| Property categories                                     | Property Type taxonomy                    |
+| Property locations                                      | Property Location taxonomy                |
+| Header navigation                                       | Appearance → Menus → Primary              |
+| Footer columns × 5                                      | Appearance → Menus (5 separate locations) |
+| Inquiry / Contact form fields and copy                  | Contact Form 7                            |
+| CF7 form-to-template mapping                            | Settings → Estatein                       |
+| Site title, tagline                                     | Settings → General                        |
+| SEO metadata per page                                   | Yoast SEO                                 |
 
 ### Hardcoded for now (would be admin-driven in v2)
 
-| Content | Production approach |
-|---|---|
-| Hero title / subtitle / stats (200+, 10k+, 16+) | Customizer or ACF Options page |
-| About Us values cards (4 items) | ACF Repeater on the About page |
-| About Us 6-step process | ACF Repeater on the About page |
-| Team members (4 people) | A `team_member` CPT |
-| Service group cards (12+ across 3 groups) | ACF Repeater on Services page or a `service` CPT |
-| Office locations (2 cards on Contact) | An `office` CPT |
-| Hero contact info on Contact page | Customizer "Contact Information" panel |
-| Announcement bar text | Customizer "Site Identity" panel |
-| Hero illustration | Customizer image upload |
+| Content                                         | Production approach                              |
+| ----------------------------------------------- | ------------------------------------------------ |
+| Hero title / subtitle / stats (200+, 10k+, 16+) | Customizer or ACF Options page                   |
+| About Us values cards (4 items)                 | ACF Repeater on the About page                   |
+| About Us 6-step process                         | ACF Repeater on the About page                   |
+| Team members (4 people)                         | A `team_member` CPT                              |
+| Service group cards (12+ across 3 groups)       | ACF Repeater on Services page or a `service` CPT |
+| Office locations (2 cards on Contact)           | An `office` CPT                                  |
+| Hero contact info on Contact page               | Customizer "Contact Information" panel           |
+| Announcement bar text                           | Customizer "Site Identity" panel                 |
+| Hero illustration                               | Customizer image upload                          |
 
 ### The reasoning
 
@@ -210,11 +241,9 @@ In a real client engagement I'd scope this as: **data model + frontend in week 1
 
 Documenting these so reviewers know they were conscious decisions, not oversights:
 
-- **Property archive filter dropdowns** (Location, Property Type, Pricing Range, Property Size, Build Year) are visual only. Real WP Query `meta_query` filtering would take ~30 minutes and is the clearest "next sprint" item. The search bar above them, however, **does work** — it scopes to `post_type=property` and renders matching property cards via the `search.php` template.
 - **Contact page office tabs** (All / Regional / International) are visual only. A small JS toggle would take ~10 minutes.
 - **Property gallery** repeats the featured image when no ACF gallery is uploaded. In production, an empty gallery slot would either show a graceful placeholder or hide unused thumbnails.
 - **Team headshots** use generated SVG initials rather than real photos. The admin can swap to real images via featured image fields when team data moves to a CPT.
-- **Hero visual** is a decorative SVG (abstract glass buildings) rather than a real photograph. Slot is ready for a real image upload via Customizer in production.
 - **Footer newsletter signup** does not yet POST to a handler. In production, would integrate with Mailchimp / ConvertKit / a custom `wp_options` table.
 - **Lighthouse SEO score is 50** because InstaWP's free tier sets "Discourage search engines from indexing this site" by default. Unchecking it in Settings → Reading would push the score to 90+ in production.
 - **Contact Form 7 emails fail to send** with `mail_failed` because InstaWP's free tier has no SMTP configured. The forms validate, submit, and respond correctly — only delivery is blocked. In production this is a one-plugin fix (WP Mail SMTP).
@@ -242,25 +271,13 @@ Documenting these so reviewers know they were conscious decisions, not oversight
 
 ---
 
-## Browser support
-
-Tested on:
-- Chrome 124 (primary development browser; Lighthouse runs)
-- Firefox 125 (spot check — no breakage)
-- Safari 17 (spot check — no breakage)
-- Mobile Chrome / Mobile Safari (DevTools device mode)
-
-CSS uses `:has()` (Safari 15.4+, all modern browsers) and `scroll-snap-type` (universal). No legacy IE support.
-
----
-
 ## Lighthouse scores
 
-| Category       | Score | Notes |
-|----------------|-------|-------|
-| Performance    | 98    | Single CSS file, inline SVGs, native lazy-load, no JS framework |
-| Accessibility  | 88    | Semantic HTML, ARIA labels, focus states; could push to 95+ with stricter contrast |
-| Best Practices | 96    | HTTPS, no console errors, modern image formats |
+| Category       | Score | Notes                                                                                 |
+| -------------- | ----- | ------------------------------------------------------------------------------------- |
+| Performance    | 98    | Single CSS file, inline SVGs, native lazy-load, no JS framework                       |
+| Accessibility  | 88    | Semantic HTML, ARIA labels, focus states; could push to 95+ with stricter contrast    |
+| Best Practices | 96    | HTTPS, no console errors, modern image formats                                        |
 | SEO            | 50    | InstaWP blocks indexing by default; flips to 90+ once Settings → Reading is unchecked |
 
 ---
@@ -274,27 +291,9 @@ Concrete examples from this build:
 - I caught and corrected a CSS cascade ordering bug where `@media (max-width: 1024px)` was defined later in the file than `@media (max-width: 768px)`, causing tablet rules to override mobile rules. Fix was source-order reorganization, not `!important`.
 - I flagged that the property archive search bar was visually present but non-functional, and required it be wired up to a real WP Query.
 - I flagged that the "Our Valued Clients" section from the Figma was missing entirely, and pushed for it to be implemented as a proper CPT (with static fallback) rather than another hardcoded array.
-- I rejected an initial CF7 styling approach that fought against CF7's auto-`<p>` wrapping behavior, and required a rewrite that worked *with* the plugin's output instead.
+- I rejected an initial CF7 styling approach that fought against CF7's auto-`<p>` wrapping behavior, and required a rewrite that worked _with_ the plugin's output instead.
 
 The point isn't "I used AI." The point is that AI augmentation only matters if you keep the senior judgment calls under your own control.
-
----
-
-## How this would scale to a real client engagement
-
-If this were a paid build for a real estate agency rather than a 4-hour assessment, the next 40-60 hours would go into:
-
-1. **Admin-ification** of every section currently hardcoded (table above) — ACF Repeaters, Customizer panels, additional CPTs for team and offices
-2. **Real property filter logic** — meta_query for price range, taxonomy queries for location and type, AJAX for instant results
-3. **WP Mail SMTP plugin** + a transactional email provider (Postmark / SendGrid) so forms actually deliver
-4. **Schema.org structured data** on Property Details (`RealEstateListing`) for richer Google search results
-5. **Block-editor patterns** for sections so editors can compose new pages from the existing design system
-6. **Image optimization pipeline** — properly sized featured images, WebP/AVIF via a plugin like ShortPixel
-7. **Multi-language support** via Polylang or WPML (theme is already translation-ready)
-8. **Roles and capabilities** — a "Property Manager" role that can edit Properties but not theme files
-9. **Backup, monitoring, performance budget** — UptimeRobot, ManageWP, query monitor in dev
-
-The artifact you're reviewing is the foundation. The senior work isn't the templates — it's the decisions about what becomes a CPT, what becomes a Repeater, what stays in PHP, and how the admin experience will feel for the editor who logs in next Tuesday.
 
 ---
 

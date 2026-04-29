@@ -54,14 +54,14 @@
     <div class="form-footer">
         <label class="check-row">
             <input type="checkbox">
-            <?php
+            <span class="check-text"><?php
             printf(
                 /* translators: 1: Terms URL, 2: Privacy URL */
                 esc_html__( 'I agree with %1$s and %2$s', 'estatein' ),
                 '<a href="#"><u>' . esc_html__( 'Terms of Use', 'estatein' ) . '</u></a>',
                 '<a href="#"><u>' . esc_html__( 'Privacy Policy', 'estatein' ) . '</u></a>'
             );
-            ?>
+            ?></span>
         </label>
         <button type="submit" class="btn"><?php esc_html_e( 'Send Your Message', 'estatein' ); ?></button>
     </div>

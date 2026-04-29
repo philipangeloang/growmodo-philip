@@ -6,6 +6,8 @@
  */
 ?>
 <section class="cta-section section">
+    <span class="cta-deco cta-deco--left"  aria-hidden="true"></span>
+    <span class="cta-deco cta-deco--right" aria-hidden="true"></span>
     <div class="container">
         <div class="cta-band">
             <div class="copy">

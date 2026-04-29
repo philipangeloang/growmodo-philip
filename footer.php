@@ -29,31 +29,81 @@
             </div>
 
             <?php
+            /**
+             * Footer columns. Each location can have a WP menu assigned;
+             * if not, we render a sensible fallback so the footer never
+             * looks broken on a fresh theme install (or after a theme
+             * re-upload, which clears menu-location assignments).
+             */
             $footer_columns = array(
-                'footer-1' => __( 'Home', 'estatein' ),
-                'footer-2' => __( 'About Us', 'estatein' ),
-                'footer-3' => __( 'Properties', 'estatein' ),
-                'footer-4' => __( 'Services', 'estatein' ),
-                'footer-5' => __( 'Contact Us', 'estatein' ),
+                'footer-1' => array(
+                    'heading'  => __( 'Home', 'estatein' ),
+                    'fallback' => array(
+                        __( 'Hero Section', 'estatein' ) => home_url( '/' ),
+                        __( 'Features', 'estatein' )     => home_url( '/' ),
+                        __( 'Properties', 'estatein' )   => home_url( '/properties/' ),
+                        __( 'Testimonials', 'estatein' ) => home_url( '/' ),
+                        __( 'FAQs', 'estatein' )         => home_url( '/' ),
+                    ),
+                ),
+                'footer-2' => array(
+                    'heading'  => __( 'About Us', 'estatein' ),
+                    'fallback' => array(
+                        __( 'Our Story', 'estatein' )    => home_url( '/about-us/' ),
+                        __( 'Our Works', 'estatein' )    => home_url( '/about-us/' ),
+                        __( 'How It Works', 'estatein' ) => home_url( '/about-us/' ),
+                        __( 'Our Team', 'estatein' )     => home_url( '/about-us/' ),
+                        __( 'Our Clients', 'estatein' )  => home_url( '/about-us/' ),
+                    ),
+                ),
+                'footer-3' => array(
+                    'heading'  => __( 'Properties', 'estatein' ),
+                    'fallback' => array(
+                        __( 'Portfolio', 'estatein' )    => home_url( '/properties/' ),
+                        __( 'Categories', 'estatein' )   => home_url( '/properties/' ),
+                    ),
+                ),
+                'footer-4' => array(
+                    'heading'  => __( 'Services', 'estatein' ),
+                    'fallback' => array(
+                        __( 'Valuation Mastery', 'estatein' )     => home_url( '/services/' ),
+                        __( 'Strategic Marketing', 'estatein' )   => home_url( '/services/' ),
+                        __( 'Negotiation Wizardry', 'estatein' )  => home_url( '/services/' ),
+                        __( 'Property Management', 'estatein' )   => home_url( '/services/' ),
+                        __( 'Investment Strategies', 'estatein' ) => home_url( '/services/' ),
+                    ),
+                ),
+                'footer-5' => array(
+                    'heading'  => __( 'Contact Us', 'estatein' ),
+                    'fallback' => array(
+                        __( 'Contact Form', 'estatein' ) => home_url( '/contact/' ),
+                        __( 'Our Offices', 'estatein' )  => home_url( '/contact/' ),
+                    ),
+                ),
             );
 
-            foreach ( $footer_columns as $location => $heading ) :
-                if ( ! has_nav_menu( $location ) ) {
-                    continue;
-                }
+            foreach ( $footer_columns as $location => $col ) :
                 ?>
                 <div class="footer-col">
-                    <h4><?php echo esc_html( $heading ); ?></h4>
-                    <?php
-                    wp_nav_menu(
-                        array(
-                            'theme_location' => $location,
-                            'container'      => false,
-                            'depth'          => 1,
-                            'fallback_cb'    => false,
-                        )
-                    );
-                    ?>
+                    <h4><?php echo esc_html( $col['heading'] ); ?></h4>
+                    <?php if ( has_nav_menu( $location ) ) : ?>
+                        <?php
+                        wp_nav_menu(
+                            array(
+                                'theme_location' => $location,
+                                'container'      => false,
+                                'depth'          => 1,
+                                'fallback_cb'    => false,
+                            )
+                        );
+                        ?>
+                    <?php else : ?>
+                        <ul class="menu">
+                            <?php foreach ( $col['fallback'] as $label => $url ) : ?>
+                                <li class="menu-item"><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $label ); ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
                 </div>
                 <?php
             endforeach;

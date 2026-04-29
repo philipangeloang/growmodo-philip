@@ -62,6 +62,15 @@ function estatein_register_property_fields() {
                     'wrapper'       => array( 'width' => '34' ),
                 ),
                 array(
+                    'key'           => 'field_property_built_year',
+                    'label'         => __( 'Year Built', 'estatein' ),
+                    'name'          => 'property_built_year',
+                    'type'          => 'number',
+                    'min'           => 1800,
+                    'max'           => 2100,
+                    'instructions'  => __( 'Used by the Build Year filter on the Properties archive.', 'estatein' ),
+                ),
+                array(
                     'key'           => 'field_property_location_text',
                     'label'         => __( 'Location (display text)', 'estatein' ),
                     'name'          => 'property_location_text',

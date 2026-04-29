@@ -19,26 +19,88 @@ get_header();
     </div>
 </section>
 
-<?php /* Search bar — submits to WP search, scoped to the property CPT */ ?>
+<?php /* Search bar + filters — one GET form, submits to the property archive */ ?>
 <section class="section property-search-section">
     <div class="container">
-        <form class="property-search" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-            <label class="screen-reader-text" for="property-search-input"><?php esc_html_e( 'Search for a property', 'estatein' ); ?></label>
-            <input id="property-search-input" type="search" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php esc_attr_e( 'Search For A Property', 'estatein' ); ?>">
-            <input type="hidden" name="post_type" value="property">
-            <button type="submit" class="btn">
-                <span aria-hidden="true">🔍</span>
-                <?php esc_html_e( 'Find Property', 'estatein' ); ?>
-            </button>
-        </form>
+        <?php
+        $ranges        = estatein_property_filter_ranges();
+        $current_loc   = isset( $_GET['loc'] )   ? sanitize_title( wp_unslash( $_GET['loc'] ) )    : '';
+        $current_ptype = isset( $_GET['ptype'] ) ? sanitize_title( wp_unslash( $_GET['ptype'] ) )  : '';
+        $current_price = isset( $_GET['price'] ) ? sanitize_text_field( wp_unslash( $_GET['price'] ) ) : '';
+        $current_size  = isset( $_GET['size'] )  ? sanitize_text_field( wp_unslash( $_GET['size'] ) )  : '';
+        $current_year  = isset( $_GET['year'] )  ? sanitize_text_field( wp_unslash( $_GET['year'] ) )  : '';
+        $current_s     = get_search_query();
 
-        <div class="property-filters">
-            <button class="filter-btn" type="button"><span aria-hidden="true">📍</span><?php esc_html_e( 'Location', 'estatein' ); ?> ▾</button>
-            <button class="filter-btn" type="button"><span aria-hidden="true">🏠</span><?php esc_html_e( 'Property Type', 'estatein' ); ?> ▾</button>
-            <button class="filter-btn" type="button"><span aria-hidden="true">💰</span><?php esc_html_e( 'Pricing Range', 'estatein' ); ?> ▾</button>
-            <button class="filter-btn" type="button"><span aria-hidden="true">📦</span><?php esc_html_e( 'Property Size', 'estatein' ); ?> ▾</button>
-            <button class="filter-btn" type="button"><span aria-hidden="true">📅</span><?php esc_html_e( 'Build Year', 'estatein' ); ?> ▾</button>
-        </div>
+        $locations      = get_terms( array( 'taxonomy' => 'property_location', 'hide_empty' => false ) );
+        $property_types = get_terms( array( 'taxonomy' => 'property_type',     'hide_empty' => false ) );
+        ?>
+        <form class="property-search-form" role="search" method="get" action="<?php echo esc_url( get_post_type_archive_link( 'property' ) ); ?>">
+
+            <div class="property-search">
+                <label class="screen-reader-text" for="property-search-input"><?php esc_html_e( 'Search for a property', 'estatein' ); ?></label>
+                <input id="property-search-input" type="search" name="s" value="<?php echo esc_attr( $current_s ); ?>" placeholder="<?php esc_attr_e( 'Search For A Property', 'estatein' ); ?>">
+                <button type="submit" class="btn">
+                    <?php estatein_the_icon( 'magnifying-glass', 16 ); ?>
+                    <?php esc_html_e( 'Find Property', 'estatein' ); ?>
+                </button>
+            </div>
+
+            <div class="property-filters">
+
+                <label class="filter-wrap">
+                    <?php estatein_the_icon( 'map-pin', 16 ); ?>
+                    <select name="loc" onchange="this.form.submit()">
+                        <option value=""><?php esc_html_e( 'Location', 'estatein' ); ?></option>
+                        <?php if ( ! is_wp_error( $locations ) ) : foreach ( $locations as $term ) : ?>
+                            <option value="<?php echo esc_attr( $term->slug ); ?>" <?php selected( $current_loc, $term->slug ); ?>><?php echo esc_html( $term->name ); ?></option>
+                        <?php endforeach; endif; ?>
+                    </select>
+                    <?php estatein_the_icon( 'chevron-down', 14 ); ?>
+                </label>
+
+                <label class="filter-wrap">
+                    <?php estatein_the_icon( 'home', 16 ); ?>
+                    <select name="ptype" onchange="this.form.submit()">
+                        <option value=""><?php esc_html_e( 'Property Type', 'estatein' ); ?></option>
+                        <?php if ( ! is_wp_error( $property_types ) ) : foreach ( $property_types as $term ) : ?>
+                            <option value="<?php echo esc_attr( $term->slug ); ?>" <?php selected( $current_ptype, $term->slug ); ?>><?php echo esc_html( $term->name ); ?></option>
+                        <?php endforeach; endif; ?>
+                    </select>
+                    <?php estatein_the_icon( 'chevron-down', 14 ); ?>
+                </label>
+
+                <label class="filter-wrap">
+                    <?php estatein_the_icon( 'currency-dollar', 16 ); ?>
+                    <select name="price" onchange="this.form.submit()">
+                        <?php foreach ( $ranges['price'] as $value => $label ) : ?>
+                            <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current_price, $value ); ?>><?php echo esc_html( $label ); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php estatein_the_icon( 'chevron-down', 14 ); ?>
+                </label>
+
+                <label class="filter-wrap">
+                    <?php estatein_the_icon( 'cube', 16 ); ?>
+                    <select name="size" onchange="this.form.submit()">
+                        <?php foreach ( $ranges['size'] as $value => $label ) : ?>
+                            <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current_size, $value ); ?>><?php echo esc_html( $label ); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php estatein_the_icon( 'chevron-down', 14 ); ?>
+                </label>
+
+                <label class="filter-wrap">
+                    <?php estatein_the_icon( 'calendar', 16 ); ?>
+                    <select name="year" onchange="this.form.submit()">
+                        <?php foreach ( $ranges['year'] as $value => $label ) : ?>
+                            <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current_year, $value ); ?>><?php echo esc_html( $label ); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php estatein_the_icon( 'chevron-down', 14 ); ?>
+                </label>
+
+            </div>
+        </form>
     </div>
 </section>
 
