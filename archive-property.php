@@ -43,7 +43,7 @@ get_header();
 </section>
 
 <?php /* Properties grid */ ?>
-<section class="section">
+<section class="section featured-properties">
     <div class="container">
         <div class="section-head">
             <div class="section-head-text">
@@ -63,18 +63,17 @@ get_header();
             <div class="carousel-pager">
                 <span class="page-indicator">
                     <?php
-                    /* translators: 1: current page, 2: total pages */
-                    printf( esc_html__( '%1$s of %2$s', 'estatein' ), '01', esc_html( $wp_query->max_num_pages ) );
+                    /* translators: 1: current item, 2: total items */
+                    printf( esc_html__( '%1$s of %2$s', 'estatein' ), '01', esc_html( $wp_query->found_posts ) );
                     ?>
                 </span>
                 <div class="pager-buttons">
-                    <?php
-                    $prev = get_previous_posts_link( '<span aria-label="' . esc_attr__( 'Previous', 'estatein' ) . '">' . estatein_icon( 'arrow-left', 18 ) . '</span>' );
-                    $next = get_next_posts_link( '<span aria-label="' . esc_attr__( 'Next', 'estatein' ) . '">' . estatein_icon( 'arrow-right', 18 ) . '</span>' );
-
-                    echo '<button class="pager-btn">' . ( $prev ? wp_kses_post( $prev ) : estatein_icon( 'arrow-left', 18 ) ) . '</button>';
-                    echo '<button class="pager-btn">' . ( $next ? wp_kses_post( $next ) : estatein_icon( 'arrow-right', 18 ) ) . '</button>';
-                    ?>
+                    <button class="pager-btn" aria-label="<?php esc_attr_e( 'Previous', 'estatein' ); ?>">
+                        <?php estatein_the_icon( 'arrow-left', 18 ); ?>
+                    </button>
+                    <button class="pager-btn" aria-label="<?php esc_attr_e( 'Next', 'estatein' ); ?>">
+                        <?php estatein_the_icon( 'arrow-right', 18 ); ?>
+                    </button>
                 </div>
             </div>
         <?php else : ?>
