@@ -141,11 +141,43 @@ function estatein_register_faq_cpt() {
 }
 
 /**
+ * Register the Client CPT (used for the "Our Valued Clients" section
+ * on the About Us page). Each client has: title (company name),
+ * since_year, domain, category, quote, and a website URL.
+ */
+function estatein_register_client_cpt() {
+
+    $labels = array(
+        'name'          => __( 'Clients', 'estatein' ),
+        'singular_name' => __( 'Client', 'estatein' ),
+        'menu_name'     => __( 'Clients', 'estatein' ),
+        'add_new_item'  => __( 'Add New Client', 'estatein' ),
+        'edit_item'     => __( 'Edit Client', 'estatein' ),
+        'search_items'  => __( 'Search Clients', 'estatein' ),
+    );
+
+    register_post_type(
+        'client',
+        array(
+            'labels'        => $labels,
+            'public'        => false,
+            'show_ui'       => true,
+            'show_in_menu'  => true,
+            'show_in_rest'  => true,
+            'menu_icon'     => 'dashicons-businessperson',
+            'menu_position' => 8,
+            'supports'      => array( 'title', 'thumbnail' ),
+        )
+    );
+}
+
+/**
  * Hook all CPT registrations on init.
  */
 function estatein_register_post_types() {
     estatein_register_property_cpt();
     estatein_register_testimonial_cpt();
     estatein_register_faq_cpt();
+    estatein_register_client_cpt();
 }
 add_action( 'init', 'estatein_register_post_types' );

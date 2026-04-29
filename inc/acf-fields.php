@@ -183,10 +183,76 @@ function estatein_register_testimonial_fields() {
 }
 
 /**
+ * Client ACF fields — used on the About Us "Our Valued Clients" section.
+ */
+function estatein_register_client_fields() {
+    if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+        return;
+    }
+
+    acf_add_local_field_group(
+        array(
+            'key'    => 'group_client_details',
+            'title'  => __( 'Client Details', 'estatein' ),
+            'fields' => array(
+                array(
+                    'key'      => 'field_client_since_year',
+                    'label'    => __( 'Since (year)', 'estatein' ),
+                    'name'     => 'client_since_year',
+                    'type'     => 'text',
+                    'instructions' => __( 'e.g. "2019"', 'estatein' ),
+                    'wrapper'  => array( 'width' => '33' ),
+                ),
+                array(
+                    'key'      => 'field_client_domain',
+                    'label'    => __( 'Domain', 'estatein' ),
+                    'name'     => 'client_domain',
+                    'type'     => 'text',
+                    'instructions' => __( 'e.g. "Commercial Real Estate"', 'estatein' ),
+                    'wrapper'  => array( 'width' => '33' ),
+                ),
+                array(
+                    'key'      => 'field_client_category',
+                    'label'    => __( 'Category', 'estatein' ),
+                    'name'     => 'client_category',
+                    'type'     => 'text',
+                    'instructions' => __( 'e.g. "Luxury Home Development"', 'estatein' ),
+                    'wrapper'  => array( 'width' => '34' ),
+                ),
+                array(
+                    'key'      => 'field_client_quote',
+                    'label'    => __( 'What They Said', 'estatein' ),
+                    'name'     => 'client_quote',
+                    'type'     => 'textarea',
+                    'rows'     => 3,
+                ),
+                array(
+                    'key'      => 'field_client_website_url',
+                    'label'    => __( 'Website URL', 'estatein' ),
+                    'name'     => 'client_website_url',
+                    'type'     => 'url',
+                    'instructions' => __( 'Linked from the "Visit Website" button.', 'estatein' ),
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param'    => 'post_type',
+                        'operator' => '==',
+                        'value'    => 'client',
+                    ),
+                ),
+            ),
+        )
+    );
+}
+
+/**
  * Hook on acf/init so fields register at the right time.
  */
 function estatein_register_acf_field_groups() {
     estatein_register_property_fields();
     estatein_register_testimonial_fields();
+    estatein_register_client_fields();
 }
 add_action( 'acf/init', 'estatein_register_acf_field_groups' );

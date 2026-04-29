@@ -219,6 +219,116 @@ $team = array(
     </div>
 </section>
 
+<?php
+/**
+ * Our Valued Clients section.
+ *
+ * Pulls from the `client` CPT. Each client's ACF fields (since_year,
+ * domain, category, quote, website_url) drive the card content. If no
+ * clients have been added yet, falls back to a default array so the
+ * section is never empty in the demo.
+ */
+$client_query = new WP_Query(
+    array(
+        'post_type'      => 'client',
+        'posts_per_page' => 6,
+        'orderby'        => 'menu_order date',
+        'order'          => 'ASC',
+    )
+);
+
+$clients = array();
+if ( $client_query->have_posts() ) {
+    while ( $client_query->have_posts() ) {
+        $client_query->the_post();
+        $clients[] = array(
+            'since'    => estatein_field( 'client_since_year' ),
+            'name'     => get_the_title(),
+            'domain'   => estatein_field( 'client_domain' ),
+            'category' => estatein_field( 'client_category' ),
+            'quote'    => estatein_field( 'client_quote' ),
+            'website'  => estatein_field( 'client_website_url' ) ?: '#',
+        );
+    }
+    wp_reset_postdata();
+}
+
+// Fallback for an empty admin so the demo never shows a blank section.
+if ( empty( $clients ) ) {
+    $clients = array(
+        array(
+            'since'    => '2019',
+            'name'     => 'ABC Corporation',
+            'domain'   => __( 'Commercial Real Estate', 'estatein' ),
+            'category' => __( 'Luxury Home Development', 'estatein' ),
+            'quote'    => __( "Estatein's expertise in finding the perfect office space for our expanding operations was invaluable. They truly understand our business needs.", 'estatein' ),
+            'website'  => '#',
+        ),
+        array(
+            'since'    => '2018',
+            'name'     => 'GreenTech Enterprises',
+            'domain'   => __( 'Commercial Real Estate', 'estatein' ),
+            'category' => __( 'Retail Space', 'estatein' ),
+            'quote'    => __( "Estatein's ability to identify prime retail locations helped us expand our brand presence. They are a trusted partner in our growth.", 'estatein' ),
+            'website'  => '#',
+        ),
+    );
+}
+?>
+<section class="section about-clients">
+    <div class="container">
+        <div class="section-head">
+            <div class="section-head-text">
+                <span class="dots-deco" aria-hidden="true"><span></span><span></span><span></span></span>
+                <h2><?php esc_html_e( 'Our Valued Clients', 'estatein' ); ?></h2>
+                <p><?php esc_html_e( 'At Estatein, we have had the privilege of working with a diverse range of clients across various industries. Here are some of the clients we’ve had the pleasure of serving.', 'estatein' ); ?></p>
+            </div>
+        </div>
+
+        <div class="clients-grid">
+            <?php foreach ( $clients as $client ) : ?>
+                <article class="client-card">
+                    <div class="client-card-head">
+                        <div>
+                            <span class="client-since"><?php echo esc_html( sprintf( __( 'Since %s', 'estatein' ), $client['since'] ) ); ?></span>
+                            <h3 class="client-name"><?php echo esc_html( $client['name'] ); ?></h3>
+                        </div>
+                        <a href="<?php echo esc_url( $client['website'] ); ?>" class="btn btn-secondary client-visit"><?php esc_html_e( 'Visit Website', 'estatein' ); ?></a>
+                    </div>
+
+                    <div class="client-meta">
+                        <div class="client-meta-row">
+                            <span class="client-meta-label"><?php estatein_the_icon( 'building', 14 ); ?> <?php esc_html_e( 'Domain', 'estatein' ); ?></span>
+                            <span class="client-meta-value"><?php echo esc_html( $client['domain'] ); ?></span>
+                        </div>
+                        <div class="client-meta-row">
+                            <span class="client-meta-label"><?php estatein_the_icon( 'sparkles', 14 ); ?> <?php esc_html_e( 'Category', 'estatein' ); ?></span>
+                            <span class="client-meta-value"><?php echo esc_html( $client['category'] ); ?></span>
+                        </div>
+                    </div>
+
+                    <div class="client-quote">
+                        <span class="client-quote-label"><?php esc_html_e( 'What They Said', 'estatein' ); ?> 😊</span>
+                        <p><?php echo esc_html( $client['quote'] ); ?></p>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="carousel-pager">
+            <span class="page-indicator">01 <span class="of">of</span> <?php echo count( $clients ); ?></span>
+            <div class="pager-buttons">
+                <button class="pager-btn" aria-label="<?php esc_attr_e( 'Previous', 'estatein' ); ?>">
+                    <?php estatein_the_icon( 'arrow-left', 18 ); ?>
+                </button>
+                <button class="pager-btn" aria-label="<?php esc_attr_e( 'Next', 'estatein' ); ?>">
+                    <?php estatein_the_icon( 'arrow-right', 18 ); ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
 <?php get_template_part( 'template-parts/sections/cta-band' ); ?>
 
 <?php get_footer();

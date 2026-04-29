@@ -45,11 +45,11 @@ No bundler. No SCSS preprocessor. Single `style.css` using CSS custom properties
 - ✅ Sticky header with announcement bar (dismissible, sessionStorage-persisted)
 - ✅ Pill-style primary nav, header CTA button, mobile hamburger menu
 - ✅ Five footer menu locations + newsletter form + social icons
-- ✅ **Custom Post Types**: Property, Testimonial, FAQ
+- ✅ **Custom Post Types**: Property, Testimonial, FAQ, Client
 - ✅ **Custom Taxonomies**: Property Type, Location
 - ✅ **ACF field groups registered in PHP** (not via the admin UI) so the data model is in version control
 - ✅ Homepage: hero with rotating badge, 4-feature row, featured properties pulling from CPT, testimonials, FAQs, CTA band
-- ✅ About Us: Our Journey + 4 Values + Achievements + 6-step process + Team grid
+- ✅ About Us: Our Journey + 4 Values + Achievements + 6-step process + Team grid + Our Valued Clients
 - ✅ Properties archive: hero + search bar + filter buttons + property grid + inquiry form
 - ✅ Property Details: gallery + description + features + inquiry form (CF7) + comprehensive pricing breakdown + FAQs
 - ✅ Services: 3 service groups with cards + CTA cards

@@ -975,6 +975,83 @@ a:hover { color: var(--color-purple-75); }
 }
 
 /* ==========================================================================
+   ABOUT — Our Valued Clients
+   ========================================================================== */
+.clients-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+}
+.client-card {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+.client-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+.client-since {
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    display: block;
+    margin-bottom: 4px;
+}
+.client-name {
+    font-size: 1.125rem;
+    margin: 0;
+}
+.client-visit {
+    flex: none;
+    white-space: nowrap;
+}
+.client-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+.client-meta-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    margin-bottom: 4px;
+}
+.client-meta-value {
+    display: block;
+    color: var(--color-white);
+    font-size: 0.9375rem;
+}
+.client-quote {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+}
+.client-quote-label {
+    display: block;
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    margin-bottom: 6px;
+}
+.client-quote p {
+    margin: 0;
+    color: var(--color-white);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
    PROPERTIES ARCHIVE — search bar + filters
    ========================================================================== */
 .property-search-section { padding-block: var(--space-5); }
@@ -1575,6 +1652,7 @@ a:hover { color: var(--color-purple-75); }
     .team-grid { grid-template-columns: repeat(2, 1fr); }
     .contact-methods-grid { grid-template-columns: repeat(2, 1fr); }
     .offices-grid { grid-template-columns: 1fr; }
+    .clients-grid { grid-template-columns: 1fr; }
     .gallery-thumbs { grid-template-columns: repeat(4, 1fr); }
     .form-row.form-row-3 { grid-template-columns: 1fr 1fr; }
 }
@@ -1669,7 +1747,54 @@ a:hover { color: var(--color-purple-75); }
 
     .hero-grid { grid-template-columns: 1fr; }
     .hero-image { aspect-ratio: 16/10; max-height: 360px; }
-    .hero-stats { grid-template-columns: 1fr; max-width: none; }
+
+    /* Hero buttons stack full-width and centered text on mobile */
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+    }
+    .hero-actions .btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* Hero stats: 2-up grid for first row, 16+ spans full width below */
+    .hero-stats,
+    .journey-stats {
+        grid-template-columns: 1fr 1fr;
+        max-width: none;
+        gap: var(--space-2);
+    }
+    .hero-stats > .hero-stat:nth-child(3),
+    .journey-stats > .hero-stat:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+
+    /* Values cards: icon + title in a horizontal row, description below */
+    .value-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        column-gap: var(--space-3);
+        align-items: center;
+    }
+    .value-card .icon-wrap {
+        margin-bottom: 0;
+        grid-row: 1;
+        grid-column: 1;
+    }
+    .value-card h3 {
+        margin: 0;
+        grid-row: 1;
+        grid-column: 2;
+    }
+    .value-card p {
+        grid-row: 2;
+        grid-column: 1 / -1;
+        margin-top: var(--space-2);
+    }
 
     .feature-row { grid-template-columns: 1fr; }
     .feature-row > .feature-card { border-right: 0; border-bottom: 1px solid var(--color-border); }
@@ -1686,6 +1811,16 @@ a:hover { color: var(--color-purple-75); }
         flex: 0 0 88%;
         min-width: 88%;
         max-width: 88%;
+    }
+
+    /* Client cards stack their head on mobile so the button sits below the name */
+    .client-card-head {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .client-meta {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
     }
 
     .cta-band { flex-direction: column; align-items: flex-start; padding: var(--space-4); }
